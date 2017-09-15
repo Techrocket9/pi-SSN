@@ -49,7 +49,7 @@ namespace πSSN
                         ++foundSSNs;
                         if (0 == foundSSNs % 10_000)
                         {
-                            Console.WriteLine($"Found {AddOrdinal(foundSSNs)} social security number in π at offset {digitOffset}");
+                            Console.WriteLine($"Found {FormatOrdinal(foundSSNs)} social security number in π at offset {digitOffset}");
                         }
                     }
 
@@ -65,28 +65,28 @@ namespace πSSN
         }
 
         // Taken from https://stackoverflow.com/a/20175/
-        public static string AddOrdinal(int num)
+        public static string FormatOrdinal(int num)
         {
-            if (num <= 0) return num.ToString();
+            if (num <= 0) return num.ToString("N0").ToString();
 
             switch (num % 100)
             {
                 case 11:
                 case 12:
                 case 13:
-                    return num + "th";
+                    return num.ToString("N0") + "th";
             }
 
             switch (num % 10)
             {
                 case 1:
-                    return num + "st";
+                    return num.ToString("N0") + "st";
                 case 2:
-                    return num + "nd";
+                    return num.ToString("N0") + "nd";
                 case 3:
-                    return num + "rd";
+                    return num.ToString("N0") + "rd";
                 default:
-                    return num + "th";
+                    return num.ToString("N0") + "th";
             }
 
         }
