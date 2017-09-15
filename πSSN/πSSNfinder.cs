@@ -14,7 +14,7 @@ namespace πSSN
 
         static void Main(string[] args)
         {
-            var srcFilePath = @"C:\Users\Techr\Downloads\y-cruncher v0.7.3.9474\Binaries\Pi - Dec - Chudnovsky.txt"; // Get some digits of π from a file. This version of the program was written for and tested against 2.5 billion digits generated with y-cruncher
+            var srcFilePath = @"C:\Users\Techr\Downloads\y-cruncher v0.7.3.9474\Pi - Dec - Chudnovsky.txt"; // Get some digits of π from a file. This version of the program was written for and tested against 2.5 billion digits generated with y-cruncher
             using (var fs = File.Open(srcFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             using (var stream = new StreamReader(fs))
             {
@@ -70,7 +70,15 @@ namespace πSSN
                         break;
                     }
                 }
-                //TODO Output the indexes of the SSNs
+
+                // Write results to file
+                using (var outStream = new StreamWriter(@"C:\Users\Techr\Downloads\y-cruncher v0.7.3.9474\SSNoffsets.txt"))
+                {
+                    for (int i = 0; i < 1_000_000_000; ++i)
+                    {
+                        outStream.WriteLine(String.Format("{0:000-00-0000}", i) + '\t' + (ssnOffsets[i] == 0 ? @"Not found" : ssnOffsets[i].ToString("N0")));
+                    }
+                }                
             }
         }
 
