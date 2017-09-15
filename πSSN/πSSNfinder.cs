@@ -74,7 +74,7 @@ namespace πSSN
             }
         }
 
-        // Taken from https://stackoverflow.com/a/20175/
+        // Adapted from https://stackoverflow.com/a/20175/
         public static string FormatOrdinal(int num)
         {
             if (num <= 0) return num.ToString("N0").ToString();
