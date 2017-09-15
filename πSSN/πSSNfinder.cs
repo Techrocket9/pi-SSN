@@ -9,9 +9,12 @@ namespace πSSN
 {
     class πSSNfinder
     {
+
+        static readonly int REPORT_INTERVAL = 100_000;
+
         static void Main(string[] args)
         {
-            var srcFilePath = @"C:\Users\Techr\Downloads\y-cruncher v0.7.3.9474\Binaries\Pi - Dec - Chudnovsky.txt";
+            var srcFilePath = @"C:\Users\Techr\Downloads\y-cruncher v0.7.3.9474\Binaries\Pi - Dec - Chudnovsky.txt"; // Get some digits of π from a file. This version of the program was written for and tested against 2.5 billion digits generated with y-cruncher
             using (var fs = File.Open(srcFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             using (var stream = new StreamReader(fs))
             {
@@ -20,7 +23,7 @@ namespace πSSN
                 var ssnOffsets = new uint[1_000_000_000];
                 var ringBuffer = new StringBuilder(9);
 
-                //Discard 3 ( the . will be dropped in the first pass through the main loop)
+                //Discard 3 (the . will be dropped in the first pass through the main loop)
                 stream.Read();
 
                 // Load ringbuffer with starter data
@@ -29,8 +32,9 @@ namespace πSSN
                     ringBuffer.Append((char)stream.Read());
                 }
 
+                DateTime lastFound = DateTime.MinValue;
                 // Actually do the work
-                for(;;)
+                for (; ; )
                 {
                     var nextVal = stream.Read();
                     if (-1 == nextVal)
@@ -45,11 +49,16 @@ namespace πSSN
 
                     if (0 == ssnOffsets[ssn])
                     {
+
                         ssnOffsets[ssn] = digitOffset;
                         ++foundSSNs;
-                        if (0 == foundSSNs % 10_000)
+                        if (0 == foundSSNs % REPORT_INTERVAL)
                         {
-                            Console.WriteLine($"Found {FormatOrdinal(foundSSNs)} social security number in π at offset {digitOffset}");
+                            var oldTime = lastFound;
+                            lastFound = DateTime.Now;
+                            var findtime = lastFound - oldTime;
+
+                            Console.WriteLine($"Found {FormatOrdinal(foundSSNs)} social security number in π at offset {digitOffset.ToString("N0")}. Finding the last {REPORT_INTERVAL.ToString("N0")} SSNs took {findtime}");
                         }
                     }
 
@@ -61,6 +70,7 @@ namespace πSSN
                         break;
                     }
                 }
+                //TODO Output the indexes of the SSNs
             }
         }
 
