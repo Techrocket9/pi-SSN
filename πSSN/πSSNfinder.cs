@@ -14,13 +14,13 @@ namespace πSSN
 
         static void Main(string[] args)
         {
-            var srcFilePath = @"C:\Users\Techr\Downloads\y-cruncher v0.7.3.9474\Pi - Dec - Chudnovsky.txt"; // Get some digits of π from a file. This version of the program was written for and tested against 2.5 billion digits generated with y-cruncher
+            var srcFilePath = @"C:\Users\Techr\Downloads\y-cruncher v0.7.3.9474\Pi - Dec - Chudnovsky.txt"; // Get some digits of π from a file. This version of the program was written for and tested against 10 billion digits generated with y-cruncher
             using (var fs = File.Open(srcFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             using (var stream = new StreamReader(fs))
             {
                 int foundSSNs = 0;
-                uint digitOffset = 1;
-                var ssnOffsets = new uint[1_000_000_000];
+                ulong digitOffset = 1;
+                var ssnOffsets = new ulong[1_000_000_000];
                 var ringBuffer = new StringBuilder(9);
 
                 //Discard 3 (the . will be dropped in the first pass through the main loop)
@@ -34,7 +34,7 @@ namespace πSSN
 
                 DateTime lastFound = DateTime.MinValue;
                 // Actually do the work
-                for (; ; )
+                for (;;)
                 {
                     var nextVal = stream.Read();
                     if (-1 == nextVal)
