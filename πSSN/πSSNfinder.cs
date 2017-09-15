@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace πSSN
 {
-    class Program
+    class πSSNfinder
     {
         static void Main(string[] args)
         {
